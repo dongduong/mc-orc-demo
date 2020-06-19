@@ -1,10 +1,12 @@
+$background-color: #F6F7FB;
+$primary-color: #1F56A7;
+
 @import 'bootstrap';
 @import 'dashboard';
 @import 'sidebar';
 @import 'navbar';
-
-$background-color: #F6F7FB;
-$primary-color: #1F56A7;
+@import 'table';
+@import 'invoice';
 
 body {
   background: $background-color;

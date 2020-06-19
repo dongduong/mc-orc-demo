@@ -1,0 +1,26 @@
+.table-responsive
+  %table.table.table-bordered.common-table.text-center.tablesorter#invoice_table
+    %thead
+      %tr
+        %th Invoice No
+        %th File Uploaded
+        %th Accident Date
+        %th VIN
+        %th Car Plate
+        %th
+    %tbody
+      - if @invoices.any?
+        - @invoices.each do |invoice|
+          %tr{ id: "invoice_#{invoice.id}" }
+            %td= invoice.invoice_number
+            %td
+            %td= invoice.accident_date
+            %td= invoice.vin
+            %td= invoice.car_plate
+            %td.wspace-nowrap
+              = link_to edit_accident_invoice_path(invoice), class: 'btn btn-mini', rel: 'tooltip', title: t('.edit') do
+                %i.fa.fa-pencil
+      - else
+        .no-result-container
+          .text-center
+            %p Not Found
