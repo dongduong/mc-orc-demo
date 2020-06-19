@@ -14,6 +14,7 @@ ActiveRecord::Schema.define(version: 20200619064605) do
 
   create_table "accident_invoices", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.string "invoice_number"
+    t.string "invoice_file"
     t.datetime "accident_date"
     t.string "vin"
     t.string "car_plate"
