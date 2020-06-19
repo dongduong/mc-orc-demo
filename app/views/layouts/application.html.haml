@@ -7,4 +7,10 @@
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
   %body
-    = yield
+    #content_wrapper
+      = render 'layouts/shared/sidenav'
+      .main-dashboard
+        #mc_header
+          = render 'layouts/shared/navbar'
+        #main-content-block
+          = yield
