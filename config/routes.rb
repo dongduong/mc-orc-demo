@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root 'dashboard#index'
+  root 'ocr#index'
 
   get 'dashboard/index'
   get 'ocr/index'

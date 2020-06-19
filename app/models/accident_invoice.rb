@@ -1,0 +1,2 @@
+class AccidentInvoice < ApplicationRecord
+end
