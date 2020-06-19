@@ -38,6 +38,7 @@ gem 'jbuilder', '~> 2.5'
 
 # Views
 gem "haml-rails", "~> 2.0"
+gem 'carrierwave', '~> 0.11.2'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
