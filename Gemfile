@@ -40,6 +40,13 @@ gem 'jbuilder', '~> 2.5'
 gem "haml-rails", "~> 2.0"
 gem 'carrierwave', '~> 0.11.2'
 gem "simple_form"
+gem "paperclip"
+gem "dotenv-rails", "~> 2.2"
+
+#AWS
+gem "aws-sdk-s3",                       "~> 1"
+gem 'aws-sdk-textract',                 '~> 1.0'
+gem 'aws-sdk-core',                     '~> 3.100'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

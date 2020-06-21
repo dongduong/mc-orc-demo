@@ -10,14 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200619064605) do
+ActiveRecord::Schema.define(version: 20200621041604) do
 
   create_table "accident_invoices", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
-    t.string "invoice_number"
-    t.string "invoice_file"
-    t.datetime "accident_date"
-    t.string "vin"
-    t.string "car_plate"
+    t.string "name"
+    t.string "invoice_file_name"
+    t.string "invoice_content_type"
+    t.bigint "invoice_file_size"
+    t.datetime "invoice_updated_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

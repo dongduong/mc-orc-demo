@@ -2,7 +2,8 @@
   .invoice-form
     .form-body
       = simple_form_for @invoice, url: accident_invoice_index_path, method: :post do |f|
-        = f.file_field :invoice_file, as: :file, label: 'File', input_html: { class: 'form-control' }
+        = f.input :name, label: 'Name', input_html: { class: 'form-control' }
+        = f.file_field :invoice, as: :file, label: 'File', input_html: { class: 'form-control' }
         %br
         = f.submit 'Save', class: 'btn'
         = link_to 'Cancel', accident_invoice_index_path, class: 'btn'

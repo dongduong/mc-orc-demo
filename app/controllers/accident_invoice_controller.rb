@@ -24,6 +24,6 @@ class AccidentInvoiceController < ApplicationController
   private 
 
   def invoice_params
-    params.require(:accident_invoice).permit(:invoice_file)
+    params.require(:accident_invoice).permit(:name, :invoice)
   end
 end
