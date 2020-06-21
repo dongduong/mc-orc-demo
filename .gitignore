@@ -17,3 +17,7 @@
 /yarn-error.log
 
 .byebug_history
+
+# dotenv
+# TODO Comment out this rule if environment variables can be committed
+.env
