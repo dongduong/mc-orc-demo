@@ -95,14 +95,14 @@ class Ocr::Textract
   end
 
   def detect_file_s3
-    document_name = "mc-orc-demo/invoice/8/medical-declaration-form-interpreter2-LzxIOH.jpg"
-    bucket = "mytest-s3-amazon"
+    #document_name = "mc-orc-demo/invoice/8/medical-declaration-form-interpreter2-LzxIOH.jpg"
+    #bucket = "mytest-s3-amazon"
     response = client.detect_document_text({
       document: {
         bytes: "data",  
         s3_object: {
-          bucket: bucket,
-          name: document_name
+          bucket: s3_bucket,
+          name: @file_path
         },
       },
     })
@@ -114,14 +114,14 @@ class Ocr::Textract
   end
 
   def analyze_document
-    document_name = "mc-orc-demo/invoice/7/SVP382128.pdf"
-    bucket = "mytest-s3-amazon"
+    #document_name = "mc-orc-demo/invoice/7/SVP382128.pdf"
+    #bucket = "mytest-s3-amazon"
     response = client.analyze_document({
       document: {
         bytes: "data",
         s3_object: {
-          bucket: bucket,
-          name: document_name,
+          bucket: s3_bucket,
+          name: @file_path,
         },
       },
       feature_types: ["TABLES"],
@@ -138,8 +138,8 @@ class Ocr::Textract
   #ASYNC
 
   def detect_document_text_async
-    document_name = "mc-orc-demo/invoice/7/SVP382128.pdf"
-    bucket = "mytest-s3-amazon"
+    #document_name = "mc-orc-demo/invoice/7/SVP382128.pdf"
+    #bucket = "mytest-s3-amazon"
     token = SecureRandom.hex
     sns_topic_arn = 'arn:aws:sns:ap-southeast-1:084104329414:demo-textract'
     role_arn = 'arn:aws:iam::084104329414:role/SNSSuccessFeedback'
@@ -147,8 +147,8 @@ class Ocr::Textract
     response = client.start_document_text_detection({
       document_location: {
         s3_object: {
-          bucket: bucket,
-          name: document_name
+          bucket: s3_bucket,
+          name: @file_path
         },
       },
       client_request_token: token,
@@ -167,16 +167,14 @@ class Ocr::Textract
 
     @metadata = response.document_metadata
     @job_status = response.job_status
-    puts '----------'
     response.blocks.each{|b| puts b[:text] if b.present?}
     @blocks = response.blocks
-    puts '----------'
   end
 
   def analyze_document_async
     #document_name = "mc-orc-demo/invoice/9/SVP375078.pdf"
     # document_name = "mc-orc-demo/invoice/7/SVP382128.pdf"
-    bucket = "mytest-s3-amazon"
+    #bucket = "mytest-s3-amazon"
     token = SecureRandom.hex
     sns_topic_arn = 'arn:aws:sns:ap-southeast-1:084104329414:demo-textract'
     role_arn = 'arn:aws:iam::084104329414:role/SNSSuccessFeedback'
@@ -184,7 +182,7 @@ class Ocr::Textract
     response = client.start_document_analysis({
       document_location: {
         s3_object: {
-          bucket: bucket,
+          bucket: s3_bucket,
           name: @file_path
         },
       },
@@ -232,5 +230,9 @@ class Ocr::Textract
 
   def client_token
     SecureRandom.hex
+  end
+
+  def s3_bucket
+    @bucket ||= ENV["S3_BUCKET_NAME"]
   end
 end
