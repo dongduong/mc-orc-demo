@@ -1,2 +1,20 @@
 .container
+  %br
+  = link_to "<< Back", accident_invoice_index_path
+
   %h1= @invoice.name
+
+  %table.table.table-bordered.common-table.tablesorter#invoice_detail_table
+    %tbody
+      %tr
+        %td Invoice Number
+        %td= @invoice.invoice_number
+      %tr
+        %td VIN
+        %td= @invoice.vin
+      %tr
+        %td Plate/License
+        %td= @invoice.plate
+      %tr
+        %td Download
+        %td= link_to @invoice.invoice_file_name, @invoice.invoice.url

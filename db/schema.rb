@@ -18,6 +18,9 @@ ActiveRecord::Schema.define(version: 20200621041604) do
     t.string "invoice_content_type"
     t.bigint "invoice_file_size"
     t.datetime "invoice_updated_at"
+    t.string "invoice_number"
+    t.string "vin"
+    t.string "plate"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

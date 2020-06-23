@@ -175,7 +175,7 @@ class Ocr::Textract
 
   def analyze_document_async
     #document_name = "mc-orc-demo/invoice/9/SVP375078.pdf"
-    document_name = "mc-orc-demo/invoice/7/SVP382128.pdf"
+    # document_name = "mc-orc-demo/invoice/7/SVP382128.pdf"
     bucket = "mytest-s3-amazon"
     token = SecureRandom.hex
     sns_topic_arn = 'arn:aws:sns:ap-southeast-1:084104329414:demo-textract'
@@ -185,7 +185,7 @@ class Ocr::Textract
       document_location: {
         s3_object: {
           bucket: bucket,
-          name: document_name
+          name: @file_path
         },
       },
       feature_types: ["FORMS"], # required, accepts TABLES, FORMS

@@ -11,6 +11,7 @@ class AccidentInvoiceController < ApplicationController
     @invoice = AccidentInvoice.new(invoice_params)
 
     if @invoice.save
+      analyse_invoice
       redirect_to accident_invoice_path(@invoice), notice: 'Invoice is create Susscessful'
     else
       render :new, error: 'Failed to create new Invoice'
@@ -25,5 +26,14 @@ class AccidentInvoiceController < ApplicationController
 
   def invoice_params
     params.require(:accident_invoice).permit(:name, :invoice)
+  end
+
+  def analyse_invoice
+    analyzer = InvoiceAnalyzer.new(@invoice)
+    analyzer.perform
+    @invoice.invoice_number = analyzer.invoice_number if analyzer.invoice_number
+    @invoice.vin = analyzer.vin if analyzer.vin
+    @invoice.plate = analyzer.plate if analyzer.plate
+    @invoice.save
   end
 end
