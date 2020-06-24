@@ -18,3 +18,11 @@
       %tr
         %td Download
         %td= link_to @invoice.invoice_file_name, @invoice.invoice.url
+
+  %h3 Key & Value
+  %table.table.table-bordered.common-table.tablesorter#invoice_detail_table
+    %tbody
+      - @invoice.key_values.each do |kv|
+        %tr
+          %td= kv.key
+          %td= kv.value

@@ -7,16 +7,18 @@
         %th Invoice Number
         %th VIN
         %th Plate/License
+        %th Key & Value
         %th
     %tbody
       - if @invoices.any?
         - @invoices.each do |invoice|
           %tr{ id: "invoice_#{invoice.id}" }
             %td= link_to invoice.name, accident_invoice_path(invoice)
-            %td= link_to "Download", invoice.invoice.url
+            %td= link_to invoice.invoice_file_name, invoice.invoice.url
             %td= invoice.invoice_number
             %td= invoice.vin
             %td= invoice.plate
+            %td= invoice.key_values.count
             %td.wspace-nowrap
               = link_to edit_accident_invoice_path(invoice), class: 'btn btn-mini', rel: 'tooltip', title: 'Edit' do
                 Edit

@@ -11,4 +11,7 @@ class AccidentInvoice < ApplicationRecord
                     source_file_option: { all: '-auto-orient' }
   validates_attachment :invoice, presence: true,
                                content_type: { content_type: [/\Aimage\/.*\Z/, 'application/pdf'] }
+
+  ## Associations
+  has_many :key_values, foreign_key: :invoice_id
 end

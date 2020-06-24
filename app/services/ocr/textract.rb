@@ -1,4 +1,6 @@
 class Ocr::Textract
+  attr_accessor :metadata, :blocks, :job_status
+
   def initialize(file_path=nil)
     @file_path = file_path
     @metadata = nil
@@ -76,6 +78,22 @@ class Ocr::Textract
 
   #   end
   # end
+
+  def store_all_key_values(invoice)
+    key_value_set_list = find_by_block_type("KEY_VALUE_SET")
+    return unless key_value_set_list
+    key_value_set_list.each do |b|
+      next unless b.entity_types[0] == 'KEY'
+      kv = KeyValue.new
+      kv.invoice_id = invoice.id
+      kv.key = get_child_relationship(b)
+      kv.value = get_value_relationship(b)
+      kv.save
+    end
+  end
+
+  ###########################
+  # DETECT AND GET RESULT
 
   def detect_file
     file = File.open(@file_path)
@@ -160,15 +178,30 @@ class Ocr::Textract
     })
 
     job_id = response[:job_id]
+
+    #get analyze result
+    count = 0
+    until get_document_text(job_id) == true || count > 20
+      puts count
+      sleep 3
+      count += 1
+    end
   end
 
   def get_document_text(job_id)
     response = client.get_document_text_detection(job_id: job_id)
-
-    @metadata = response.document_metadata
     @job_status = response.job_status
-    response.blocks.each{|b| puts b[:text] if b.present?}
-    @blocks = response.blocks
+
+    puts @job_status
+
+    if @job_status == "IN_PROGRESS"
+      false
+    else
+      @metadata = response.document_metadata
+      response.blocks.each{|b| puts b if b.present?}
+      @blocks = response.blocks
+      true
+    end
   end
 
   def analyze_document_async
@@ -186,7 +219,7 @@ class Ocr::Textract
           name: @file_path
         },
       },
-      feature_types: ["FORMS"], # required, accepts TABLES, FORMS
+      feature_types: ["FORMS", "TABLES"], # required, accepts TABLES, FORMS
       client_request_token: token,
       job_tag: "DemoTextract",
       notification_channel: {
