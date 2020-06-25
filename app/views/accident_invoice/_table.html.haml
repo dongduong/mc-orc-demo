@@ -8,6 +8,7 @@
         %th VIN
         %th Plate/License
         %th Key & Value
+        %th Tables
         %th
     %tbody
       - if @invoices.any?
@@ -19,6 +20,7 @@
             %td= invoice.vin
             %td= invoice.plate
             %td= invoice.key_values.count
+            %td= invoice.table_entries.count
             %td.wspace-nowrap
               = link_to edit_accident_invoice_path(invoice), class: 'btn btn-mini', rel: 'tooltip', title: 'Edit' do
                 Edit

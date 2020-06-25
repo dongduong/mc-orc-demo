@@ -20,9 +20,21 @@
         %td= link_to @invoice.invoice_file_name, @invoice.invoice.url
 
   %h3 Key & Value
-  %table.table.table-bordered.common-table.tablesorter#invoice_detail_table
+  %table.table.table-bordered.common-table.tablesorter#key_value_detail_table
     %tbody
       - @invoice.key_values.each do |kv|
         %tr
           %td= kv.key
           %td= kv.value
+
+  %br
+  %h3 Tables
+  - @invoice.table_entries.each do |t|
+    %table.table.table-bordered.common-table.tablesorter#table_entries_table
+      %tbody
+        - for row in 1..t.row_count
+          %tr
+            - for column in 1..t.column_count
+              %td= t.cell_entries.where(row_index: row, column_index: column).first&.value
+    %br
+    %br

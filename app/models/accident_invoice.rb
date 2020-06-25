@@ -14,4 +14,5 @@ class AccidentInvoice < ApplicationRecord
 
   ## Associations
   has_many :key_values, foreign_key: :invoice_id
+  has_many :table_entries, foreign_key: :invoice_id
 end

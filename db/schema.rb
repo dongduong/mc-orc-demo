@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200624085541) do
+ActiveRecord::Schema.define(version: 20200624143947) do
 
   create_table "accident_invoices", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.string "name"
@@ -25,10 +25,27 @@ ActiveRecord::Schema.define(version: 20200624085541) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "cell_entries", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.integer "table_entry_id"
+    t.string "value"
+    t.integer "row_index"
+    t.integer "column_index"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "key_values", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.integer "invoice_id"
     t.string "key"
     t.string "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "table_entries", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.integer "invoice_id"
+    t.integer "row_count"
+    t.integer "column_count"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

@@ -92,6 +92,40 @@ class Ocr::Textract
     end
   end
 
+  def store_all_table(invoice)
+    table_entry_list = find_by_block_type("TABLE")
+    return unless table_entry_list
+    table_entry_list.each do |b|
+      t = TableEntry.new
+      t.invoice_id = invoice.id
+      t.save
+      store_cells(b, t.id)
+
+      update_table_counts(t)
+    end
+  end
+
+  def store_cells(table_block, table_entry_id)
+    ids = table_block.relationships&.detect{|r| r.type == "CHILD" }&.ids
+    if ids
+      ids.each do |id|
+        cell_block = find_by_id(id)
+        next unless cell_block
+        c = CellEntry.new
+        c.table_entry_id = table_entry_id
+        c.value = get_child_relationship(cell_block)
+        c.row_index = cell_block.row_index
+        c.column_index = cell_block.column_index
+        c.save
+      end
+    end
+  end
+
+  def update_table_counts(table)
+    last_cell = table.cell_entries.last
+    table.update_columns(row_count: last_cell.row_index, column_count: last_cell.column_index)
+  end
+
   ###########################
   # DETECT AND GET RESULT
 

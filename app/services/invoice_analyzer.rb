@@ -34,6 +34,9 @@ class InvoiceAnalyzer
     #store all key_values
     service.store_all_key_values(@invoice)
 
+    #store all tables
+    service.store_all_table(@invoice)
+
     #extract data
     INVOICE_NUMBER_KEYS.each do |key|
       if value = service.find_by_key(key)
