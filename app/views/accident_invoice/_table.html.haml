@@ -4,6 +4,7 @@
       %tr
         %th Name
         %th File
+        %th Status
         %th Invoice Number
         %th VIN
         %th Plate/License
@@ -16,6 +17,7 @@
           %tr{ id: "invoice_#{invoice.id}" }
             %td= link_to invoice.name, accident_invoice_path(invoice)
             %td= link_to invoice.invoice_file_name, invoice.invoice.url
+            %td= invoice.job_status
             %td= invoice.invoice_number
             %td= invoice.vin
             %td= invoice.plate

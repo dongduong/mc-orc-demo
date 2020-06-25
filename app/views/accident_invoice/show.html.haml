@@ -4,37 +4,49 @@
 
   %h1= @invoice.name
 
-  %table.table.table-bordered.common-table.tablesorter#invoice_detail_table
+  %table.table.table-bordered.common-table.tablesorter#invoice_job_info
     %tbody
       %tr
-        %td Invoice Number
-        %td= @invoice.invoice_number
+        %td Job ID
+        %td= @invoice.job_id
       %tr
-        %td VIN
-        %td= @invoice.vin
-      %tr
-        %td Plate/License
-        %td= @invoice.plate
+        %td Job Status
+        %td= @invoice.job_status
       %tr
         %td Download
         %td= link_to @invoice.invoice_file_name, @invoice.invoice.url
-
-  %h3 Key & Value
-  %table.table.table-bordered.common-table.tablesorter#key_value_detail_table
-    %tbody
-      - @invoice.key_values.each do |kv|
-        %tr
-          %td= kv.key
-          %td= kv.value
-
   %br
-  %h3 Tables
-  - @invoice.table_entries.each do |t|
-    %table.table.table-bordered.common-table.tablesorter#table_entries_table
+
+  - if @invoice.extract_finish?
+    %h3 Key & Value
+    %table.table.table-bordered.common-table.tablesorter#key_value_detail_table
       %tbody
-        - for row in 1..t.row_count
+        - @invoice.key_values.each do |kv|
           %tr
-            - for column in 1..t.column_count
-              %td= t.cell_entries.where(row_index: row, column_index: column).first&.value
+            %td= kv.key
+            %td= kv.value
+
     %br
-    %br
+    %h3 Tables
+    - @invoice.table_entries.each do |t|
+      %table.table.table-bordered.common-table.tablesorter#table_entries_table
+        %tbody
+          - for row in 1..t.row_count
+            %tr
+              - for column in 1..t.column_count
+                %td= t.cell_entries.where(row_index: row, column_index: column).first&.value
+      %br
+      %br
+
+    %h3 Invoice
+    %table.table.table-bordered.common-table.tablesorter#invoice_detail_table
+      %tbody
+        %tr
+          %td Invoice Number
+          %td= @invoice.invoice_number
+        %tr
+          %td VIN
+          %td= @invoice.vin
+        %tr
+          %td Plate/License
+          %td= @invoice.plate
