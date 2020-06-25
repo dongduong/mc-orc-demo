@@ -15,6 +15,7 @@ class InvoiceAnalyzer
   PLATE_KEYS = [
     'Amtliches Kennzei',
     'Amtliches Kennzeichen',
+    'Amtl. Kennzeichen',
     'Auftrag'
   ]
 
@@ -27,7 +28,14 @@ class InvoiceAnalyzer
 
   def perform
     service = Ocr::Textract.new(file_path)
+    #service.detect_document_text_async
     service.analyze_document_async
+
+    #store all key_values
+    service.store_all_key_values(@invoice)
+
+    #store all tables
+    service.store_all_table(@invoice)
 
     #extract data
     INVOICE_NUMBER_KEYS.each do |key|
