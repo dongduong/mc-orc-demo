@@ -32,8 +32,16 @@ class InvoiceAnalyzer
     #job_id = @service.detect_document_text_async
     return unless job_id = @service.analyze_document_async
     save_job_to_invoice(job_id)
-    
+
     unless @run_in_background
+      store_all_data
+      extract_data
+    end
+  end
+
+  def get_results
+    if @service.get_analyze_document(@invoice.job_id)
+      @invoice.update_column(:job_status, @service.job_status)
       store_all_data
       extract_data
     end

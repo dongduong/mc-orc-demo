@@ -20,6 +20,7 @@ class AccidentInvoiceController < ApplicationController
 
   def show
     @invoice = AccidentInvoice.find(params[:id])
+    get_analyse_result unless @invoice.extract_finish?
   end
 
   private 
@@ -31,6 +32,16 @@ class AccidentInvoiceController < ApplicationController
   def analyse_invoice
     analyzer = InvoiceAnalyzer.new(@invoice)
     analyzer.perform
+    @invoice.invoice_number = analyzer.invoice_number if analyzer.invoice_number
+    @invoice.vin = analyzer.vin if analyzer.vin
+    @invoice.plate = analyzer.plate if analyzer.plate
+    @invoice.save
+  end
+
+  def get_analyse_result
+    analyzer = InvoiceAnalyzer.new(@invoice)
+    analyzer.get_results
+
     @invoice.invoice_number = analyzer.invoice_number if analyzer.invoice_number
     @invoice.vin = analyzer.vin if analyzer.vin
     @invoice.plate = analyzer.plate if analyzer.plate

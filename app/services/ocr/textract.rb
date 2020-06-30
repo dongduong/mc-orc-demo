@@ -1,10 +1,11 @@
 class Ocr::Textract
-  attr_accessor :metadata, :blocks
+  attr_accessor :metadata, :blocks, :job_status
 
   def initialize(file_path=nil, run_in_background=true)
     @file_path = file_path
     @metadata = nil
     @blocks = nil
+    @job_status = nil
     @run_in_background = run_in_background
   end
 
@@ -228,11 +229,11 @@ class Ocr::Textract
 
   def get_document_text(job_id)
     response = client.get_document_text_detection(job_id: job_id)
-    job_status = response.job_status
+    @job_status = response.job_status
 
-    puts job_status
+    puts @job_status
 
-    if job_status == "IN_PROGRESS"
+    if @job_status == "IN_PROGRESS"
       false
     else
       @metadata = response.document_metadata
@@ -283,11 +284,11 @@ class Ocr::Textract
 
   def get_analyze_document(job_id)
     response = client.get_document_analysis(job_id: job_id)
-    job_status = response.job_status
+    @job_status = response.job_status
 
-    puts job_status
+    puts @job_status
 
-    if job_status == "IN_PROGRESS"
+    if @job_status == "IN_PROGRESS"
       false
     else
       @metadata = response.document_metadata
