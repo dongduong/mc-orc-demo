@@ -47,6 +47,7 @@ gem "dotenv-rails", "~> 2.2"
 gem "aws-sdk-s3",                       "~> 1"
 gem 'aws-sdk-textract',                 '~> 1.0'
 gem 'aws-sdk-core',                     '~> 3.100'
+gem 'aws-sdk-sns',                      '~> 1.1'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

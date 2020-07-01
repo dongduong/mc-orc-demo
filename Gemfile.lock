@@ -55,6 +55,9 @@ GEM
       aws-sdk-core (~> 3, >= 3.99.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.1)
+    aws-sdk-sns (1.26.0)
+      aws-sdk-core (~> 3, >= 3.99.0)
+      aws-sigv4 (~> 1.1)
     aws-sdk-textract (1.16.1)
       aws-sdk-core (~> 3, >= 3.99.0)
       aws-sigv4 (~> 1.1)
@@ -259,6 +262,7 @@ PLATFORMS
 DEPENDENCIES
   aws-sdk-core (~> 3.100)
   aws-sdk-s3 (~> 1)
+  aws-sdk-sns (~> 1.1)
   aws-sdk-textract (~> 1.0)
   bootstrap-sass (~> 3.4)
   byebug

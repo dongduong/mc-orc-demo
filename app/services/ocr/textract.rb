@@ -1,11 +1,12 @@
 class Ocr::Textract
   attr_accessor :metadata, :blocks, :job_status
 
-  def initialize(file_path=nil)
+  def initialize(file_path=nil, run_in_background=true)
     @file_path = file_path
     @metadata = nil
     @blocks = nil
     @job_status = nil
+    @run_in_background = run_in_background
   end
 
   def find_by(key)
@@ -214,12 +215,16 @@ class Ocr::Textract
     job_id = response[:job_id]
 
     #get analyze result
-    count = 0
-    until get_document_text(job_id) == true || count > 20
-      puts count
-      sleep 3
-      count += 1
+    unless @run_in_background
+      count = 0
+      until get_document_text(job_id) == true || count > 20
+        puts count
+        sleep 3
+        count += 1
+      end
     end
+
+    job_id
   end
 
   def get_document_text(job_id)
@@ -265,12 +270,16 @@ class Ocr::Textract
     job_id = response[:job_id]
 
     #get analyze result
-    count = 0
-    until get_analyze_document(job_id) == true || count > 20
-      puts count
-      sleep 3
-      count += 1
+    unless @run_in_background
+      count = 0
+      until get_analyze_document(job_id) == true || count > 20
+        puts count
+        sleep 3
+        count += 1
+      end
     end
+
+    job_id
   end
 
   def get_analyze_document(job_id)
