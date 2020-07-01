@@ -8,14 +8,17 @@ class AccidentInvoiceController < ApplicationController
   end
 
   def create
-    @invoice = AccidentInvoice.new(invoice_params)
-
-    if @invoice.save
-      analyse_invoice
-      redirect_to accident_invoice_path(@invoice), notice: 'Invoice is create Susscessful'
-    else
-      render :new, error: 'Failed to create new Invoice'
+    ActiveRecord::Base.transaction do
+      params[:invoices]["invoice"].each do |invoice|
+        accident_invoice = AccidentInvoice.new(invoice_params)
+        accident_invoice.invoice = invoice
+        accident_invoice.save
+        analyse_invoice(accident_invoice)
+      end
+      redirect_to accident_invoice_index_path, notice: 'Invoices are created Susscessful'
     end
+  rescue StandardError
+    redirect_to accident_invoice_index_path, error: 'Failed to create new Invoices'
   end
 
   def show
@@ -26,16 +29,16 @@ class AccidentInvoiceController < ApplicationController
   private 
 
   def invoice_params
-    params.require(:accident_invoice).permit(:name, :invoice)
+    params.require(:accident_invoice).permit(:name)
   end
 
-  def analyse_invoice
-    analyzer = InvoiceAnalyzer.new(@invoice)
+  def analyse_invoice(invoice)
+    analyzer = InvoiceAnalyzer.new(invoice)
     analyzer.perform
-    @invoice.invoice_number = analyzer.invoice_number if analyzer.invoice_number
-    @invoice.vin = analyzer.vin if analyzer.vin
-    @invoice.plate = analyzer.plate if analyzer.plate
-    @invoice.save
+    invoice.invoice_number = analyzer.invoice_number if analyzer.invoice_number
+    invoice.vin = analyzer.vin if analyzer.vin
+    invoice.plate = analyzer.plate if analyzer.plate
+    invoice.save
   end
 
   def get_analyse_result
