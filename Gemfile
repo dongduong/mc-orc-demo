@@ -38,7 +38,7 @@ gem 'jbuilder', '~> 2.5'
 
 # Views
 gem "haml-rails", "~> 2.0"
-gem 'carrierwave', '~> 0.11.2'
+gem 'carrierwave', '~> 1.3.2'
 gem "simple_form"
 gem "paperclip"
 gem "dotenv-rails", "~> 2.2"
